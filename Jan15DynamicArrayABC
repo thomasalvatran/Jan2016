@@ -1,0 +1,60 @@
+//How to create a dynamic array of an Abstract class?
+//http://stackoverflow.com/questions/2717854/how-to-create-a-dynamic-array-of-an-abstract-class
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Animal
+{
+public:
+    string name;
+    Animal(const string name) : name(name) { cout << "Base class Animal" << endl; }
+    virtual string talk() = 0;
+};
+
+class Dog : public Animal
+{
+public:
+    Dog(const string name) : Animal(name){}
+    virtual string talk() { return "Bark"; }
+};
+
+class Cat: public Animal
+{
+public:
+    Cat(const string name): Animal(name){}
+    virtual string talk() { return "Meo"; }
+};
+class Test
+{
+public:
+//    virtual int func() = 0;
+    int i;
+};
+
+int main()
+{
+    Dog dog("Tippy");
+    cout << dog.talk() << endl;
+    Cat cat("Missy");
+    cout << cat.talk() << endl;
+    Animal *ani[] =
+    {
+        new Cat("Missy"),
+        new Dog("Lassie")
+    };
+
+    vector<Animal*> a; //vector with abstract class
+//    Animal *c = new Cat("Cat");
+//    Animal *d = new Dog("Dog");
+
+    a.push_back(new Cat("Cat"));
+    a.push_back(new Dog("Dog"));
+
+    for(int ii = 0; ii < a.size(); ii++ )
+        {
+            cout << a[ii]->name <<'\t'<< a[ii]->talk() << endl;
+        }
+
+}

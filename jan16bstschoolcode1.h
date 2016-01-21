@@ -7,6 +7,7 @@ struct BstNode
     BstNode *left;
     BstNode *right;
 };
+
 BstNode* createNewNode(int data)
 {
     BstNode *newNode = new BstNode();
@@ -24,6 +25,20 @@ BstNode* insert(BstNode *root, int data)
     else
         root->right = insert(root->right,data);
     return root;
+}
+
+bool search(BstNode *root, int data)
+{
+    if (root == NULL)
+    {
+        return false;
+    }
+    else if (root->data == data)
+        return true;
+    else if (data <= root->data)
+        return search(root->left, data);
+    else
+        return search(root->right, data);
 }
 
 void print(BstNode *root)

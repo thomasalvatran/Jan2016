@@ -1,4 +1,5 @@
-//implement queue ADT using array
+/*********implement queue ADT using array  ***********/
+
 #include <iostream>
 using namespace std;
 
@@ -70,7 +71,7 @@ void enqueue1(int data)
 
 void dequeue1()
 {
-    struct Node *temp = front1;
+//    struct Node *temp = front1;
     if (front1 == NULL)
     {
         printf("Queue is empty");
@@ -80,7 +81,7 @@ void dequeue1()
         front1 = rear1 = NULL;
     else
         front1 = front1->next;
-    free(temp);
+//    free(temp);
 }
 
 void print1()
@@ -94,7 +95,8 @@ void print1()
     cout << endl;
 }
 
-//implement queue using Tree
+/********* implement queue using Tree **********/
+
 struct BstNode
 {
     int data;
@@ -135,8 +137,8 @@ void deletetrees(BstNode *root)  //delete all nodes in tree
         free(root);
     }
 }
-
-BstNode* findMinNodeLeftOrRight(BstNode *root, int LorR) {
+/* 0 is left, 1 is right using to find Min or Max of right or left subtree */
+BstNode* findMinMaxNodeLeftOrRight(BstNode *root, int LorR ) {
   if (!LorR) { /* 0 is left */
     while (root->left != NULL)
       root = root->left;
@@ -146,7 +148,6 @@ BstNode* findMinNodeLeftOrRight(BstNode *root, int LorR) {
   }
   return root;
 }
-
 
 BstNode* deleteNode(BstNode *root, int data) {  //delete a note in tree
   if (root == NULL)
@@ -158,8 +159,8 @@ BstNode* deleteNode(BstNode *root, int data) {  //delete a note in tree
   else {
     // case 1: No child
     if (root->left == NULL && root->right == NULL) {
-      delete root;
-      root = NULL;
+      delete root;  //still dangling address
+      root = NULL;  //clear it
     }
     // case 2: One child
     else if (root->left == NULL) {
@@ -173,15 +174,15 @@ BstNode* deleteNode(BstNode *root, int data) {  //delete a note in tree
     }
     // case 3: 2 children
     else {
-      BstNode *temp = findMinNodeLeftOrRight(root->right, 1);
+      BstNode *temp = findMinMaxNodeLeftOrRight(root->right, 1);
       root->data = temp->data;
       root->right = deleteNode(root->right, temp->data);
     }
   }
-  return root;
+  return root;  //after delete root address is changed return root
 }
 
-int findMax(BstNode *root) {
+int findMax(BstNode *root) {  /* Max is goes to right */
   if (root == NULL) {
     cout << "Error: Tree is empty\n";
     return -1;
@@ -197,7 +198,7 @@ int findMax(BstNode *root) {
 
 // In BST right side > root and left side < root
 // Find a minimum goes left site of BST Binary Search Tree
-int findMin(BstNode *root) {
+int findMin(BstNode *root) {  /* Min goes to left */
   if (root == NULL) {
     cout << "Error: Tree is empty\n";
     return -1;
@@ -228,8 +229,8 @@ void print2(BstNode *root)
     if (root)
     {
       print2(root->left);
-      print2(root->right);
       printf("%d ", root->data);
+      print2(root->right);
     }
 }
 
@@ -296,10 +297,11 @@ int main()
 
     cout << "\nsearch data in queue tree" << endl;
     int data;
-    cout << "Enter data to search " << endl;
+    cout << "Enter data to search and delete that node" << endl;
     cin >> data;
     cout << (search(root, data) == true ? "Found " : "Not Found") << endl;
-
+    deleteNode(root, data);
+    print2(root);
 //    deletetrees(root); //delete all nodes in tree
 //    deleteNode(root, 101);
 //    print2(root);

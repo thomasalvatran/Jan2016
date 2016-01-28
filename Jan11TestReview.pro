@@ -42,4 +42,6 @@ HEADERS += \
     jan16datastructvector.h \
     jan16datastructarrayqueue1.h \
     jan16datastructarraystlqueue.h \
-    ADT.h
+    ADT.h \
+    adt1.h \
+    mayallsorts.h

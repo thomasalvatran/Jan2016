@@ -54,41 +54,32 @@ void mergeSort(int a[], int l, int r) {
   mergeSort(a, m + 1, r);
   merge(a, l, m, r);
 }
-
-void insertSort(int *a, int n)
-{
-    int i, j, value;
-    for (i = 0; i < n; i++)
-    {
-        value = a[i];
-        for (j = i; j > 0 && value <= a[j -1]; j--)
-            a[j] = a[j - 1];
-        a[j] = value;
-    }
+void insertSort(int a[], int n) {
+  int i, j, value;
+  for (i = 0; i < n; i++) {
+    value = a[i];
+    for (j = i; j > 0 && value <= a[j - 1]; j--)
+      a[j] = a[j - 1];
+    a[j] = value;
+  }
 }
-
-void bubbleSort(int *a, int n)
-{
-   int i, j;
-   for (i = 0; i < n; i++)
-       for (j = n-1; j > 0; j--)
-           if (a[j] > a[j -1])
-               swap (a, j, j -1);
+void bubbleSort(int *a, int n) {
+  int i, j;
+  for (i = 1; i < n; i++)
+    for (j = n - 1; j >= i; j--)
+      if (a[j] < a[j - 1])
+        swap(a, j, j - 1);
 }
-
-void selectSort(int a[], int n)
-{
-    int i, j, min;
-    for (i = 0; i < n; i++)
-    {
-        min = i;
-        for (j = i; j < n; j++)
-            if (a[j] < a[min])
-                min = j;
-        swap (a, i, min);
-    }
+void selectSort(int a[], int n) {
+  int i, j, min;
+  for (i = 0; i < n; i++) {
+    min = i;
+    for (j = i; j < n; j++)
+      if (a[j] < a[min])
+        min = j;
+    swap(a, i, min);
+  }
 }
-
 int partition1(int a[], int p, int r) {
   int i, j;
   i = p - 1; // pivot p at position l
@@ -101,31 +92,27 @@ int partition1(int a[], int p, int r) {
   swap(a, i + 1, r);
   return (i + 1); // middle
 }
-int partition(int *a, int l, int r)
-{
-    int p = a[l];
+int partition(int a[], int l, int r) {
+  int p = a[l];
+  if (l < r) {
+    while (a[l] < p)
+      l++;
+    while (a[r] > p)
+      r--;
     if (l < r)
-    {
-        while (a[l] < p )
-            l++;
-        while (a[r] > p)
-            r--;
-        if (l < r)
-            swap(a, l, r);
-     }
-    return r;
+      swap(a, l, r);
+  }
+  return r;
 }
-
-void quickSort(int a[], int l, int r)
-{
-    int m;
-    if (l < r)
-    {
-        cout << "partition" << endl;
-        m = partition(a, l, r);
-        quickSort(a, l, m -1);
-        quickSort(a, m + 1, r);
-    }
+void quickSort(int a[], int l, int r) {
+  int m;
+  if (l < r) {
+    cout << "partition" << endl;
+    //    m = partition1(a, l, r);
+    m = partition(a, l, r);
+    quickSort(a, l, m - 1);
+    quickSort(a, m + 1, r);
+  }
 }
 
 void shellsort(int v[], int n) {
@@ -165,11 +152,11 @@ int main() {
   for (int i = 0; i < 10; i++)
     a[i] = rand_int(1, 100);
   print(a, 10);
-    //selectSort(a, 10);
-//    insertSort(a, 10);
-//    bubbleSort(a, 10);
-//    mergeSort(a, 0, 3);
-  quickSort(a, 0, 9);
+  //  selectSort(a, 4);
+  //  insertSort(a, 4);
+  //  bubbleSort(a, 4);
+    mergeSort(a, 0, 3);
+//  quickSort(a, 0, 9);
 //  shellsort(a, 10);
   print(a, 10);
 }

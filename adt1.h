@@ -2,11 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <stdio.h>
 
 using namespace std;
 
 const int SIZE = 5;
-int array[SIZE];
+int array[SIZE];  //store in stack but static global is in program data segment
+                  // use for many .c file. static global only for this file
 int rear = 0, front = 0;
 
 bool isFull()
@@ -55,6 +57,7 @@ struct Node
     int data;
     struct Node *next;
 };
+
 struct Node *rearLL = NULL, *frontLL = NULL;
 void enqueueLinkedList(int data)
 {
@@ -98,6 +101,14 @@ struct BstNode
     int data;
     struct BstNode *left = 0, *right = 0;
 };
+BstNode *root = NULL; ////////////////////////////////global
+void Test()
+{
+    //create a node array is not because array in the stack, node in heap
+    // BstNode *bst = NULL;
+    // bst->data = 444;
+    // bst->left = bst->right = NULL;
+}
 BstNode* insertNode(BstNode *root, int data);
 BstNode* enqueueTree(BstNode *root, int data)
 {
@@ -189,14 +200,26 @@ BstNode* removeNode(BstNode *root, int data)
       }
       else if (root->right == NULL)
       {
-          BstNode *temp = root;
+          BstNode *temp = root; //see dequeueMaxTree
           root = root->left;
           delete temp;
       }
       else
       {
-          BstNode *temp = findMinMaxNodeLeftOrRight(root->right, 1);
-          root->right = removeNode(root->right, temp->data);
+          int LorR;
+          if (data > root->data)
+          {
+            BstNode *temp = findMinMaxNodeLeftOrRight(root->right, LorR);
+            root->right = removeNode(root->right, temp->data);
+            LorR = 1;
+          }
+          else
+          {
+            BstNode *temp = findMinMaxNodeLeftOrRight(root->left, LorR);
+            root->left = removeNode(root->left, temp->data);
+            LorR = 0;
+          }
+          
       }
   }
   return root;
@@ -241,14 +264,14 @@ BstNode* findMax(BstNode *root)
         cout << "Tree is empty " << endl;
         return root;
     }
-    int max = root->right->data;
+ //   int max = root->right->data;
     while (root->right != NULL)
     {
         root = root->right;
-        if (root->data >= max)
-            max = root->data;
+ //       if (root->data >= max)
+ //           max = root->data;
     }
-    return root;
+    return root;  //end of root->right is also max;
 }
 
 BstNode* findMin(BstNode *root)
@@ -321,6 +344,7 @@ int main()
     cout << "Factorial(4) " << factorial(4) << endl;
     cout << "Fibonacci(5) " << fibonacci(5) << endl;
     cout << "Queue array" << endl;
+    //array create in stack and global for all file unless static int array[SIZE]
     enqueue(2);
     enqueue(4);
     enqueue(5);
@@ -335,8 +359,9 @@ int main()
     dequeueLinkedList();
     printLinkedList();
     cout << "Binary Search Tree " << endl;
-    BstNode *root = NULL;
-    root = insertNode(root, 111);
+    //struct create in heap and local for this file
+    // BstNode *root = NULL; //////////////////////////local
+    root = insertNode(root, 111);  // this is the root node will never change
     root = insertNode(root, 110);
     root = insertNode(root, 112);
     printTree(root);
@@ -355,6 +380,7 @@ int main()
     root = dequeueMaxTree(root);
     printTree(root);
     printf("\n");
+    printf("Root data %d\n", root->data);
     cout << "Find Max Root " << (findMax(root)->data) << endl;
     cout << "Find Min Root " << (findMin(root)->data) << endl;
     printf("\n");
@@ -379,4 +405,6 @@ int main()
         vec.clear(); //reset the vector to start over
     }
 
+    return 0;
 }
+

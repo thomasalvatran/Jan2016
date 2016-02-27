@@ -32,7 +32,6 @@ public:
         cities.insert(pair<string, DistanceToCity>(from, DistanceToCity(to, distance))); //define <string...>
         cities.insert(make_pair(from, DistanceToCity(to, distance)));  // no define <string
         cities.insert(CityMap::value_type(from, DistanceToCity(to, distance))); //value_type
-        cout << from << " " << to << " " << distance << endl;
     }
     void find_distance(string start, map<string, int> &shortest)  //???? by reference
     {
@@ -50,10 +49,9 @@ public:
                     stop = cities.upper_bound(new_city.getName());
                     while (p != stop)
                     {
-                        DistanceToCity next_destination = (*p).second; /* p->second */
+                        DistanceToCity next_destination = (*p).second;
                         int total_distance = d + next_destination.getDistance();
                         que.push(DistanceToCity(next_destination.getName(), total_distance));
-                        cout << next_destination.getName() << " " << total_distance << endl;
                         ++p;
                     }
             }
@@ -63,7 +61,7 @@ public:
 
 int main()
 {
-     DistanceFinder d;
+    DistanceFinder d;
      d.set_distance("Pendleton", "Phoenix", 4);
      d.set_distance("Pendleton", "Pueblo", 8);
      d.set_distance("Pensacola", "Phoenix", 5);
@@ -76,12 +74,12 @@ int main()
      d.set_distance("Pittsburgh", "Pensacola", 4);
      d.set_distance("Princeton", "Pittsburgh", 2);
      d.set_distance("Pueblo", "Pierre", 3);
-     cout << "-------Pierre------" << endl;
+
      map<string, int> shortest;
-     d.find_distance("Pierre", shortest); //pass by reference
+     d.find_distance("Pierre", shortest);
      map<string, int>::iterator current = shortest.begin();
-     map<string, int>::iterator end = shortest.end();
-     while (current != end) {
+     map<string, int>::iterator stop = shortest.end();
+     while (current != stop) {
        pair<string, int> p = *current;
        cout << "distance to " << p.first << " is " << p.second << "\n";
        ++current;

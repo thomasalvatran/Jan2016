@@ -44,4 +44,16 @@ HEADERS += \
     jan16datastructarraystlqueue.h \
     ADT.h \
     adt1.h \
-    mayallsorts.h
+    mayallsorts.h \
+    may19linkedlistsort.h \
+    isbst.h \
+    kernelmodule.h \
+    thread.h \
+    thread_posix.h \
+    thread1.h \
+    thread2.h \
+    thread4.h \
+    thread5.h \
+    pqueue.h \
+    dijkstra.h \
+    multimap_upper_lower_bound.h

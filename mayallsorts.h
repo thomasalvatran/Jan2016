@@ -94,7 +94,7 @@ int partition1(int a[], int p, int r) {
 }
 int partition(int a[], int l, int r) {
   int p = a[l];
-  if (l < r) {
+  while (l < r) {
     while (a[l] < p)
       l++;
     while (a[r] > p)
